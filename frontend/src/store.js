@@ -1,8 +1,8 @@
-import storageService from 'lib/storageService';
-import ApiClient from 'lib/apiClient';
+import storageService from './lib/storageService';
+import ApiClient from './lib/apiClient';
 
 export const apiClient = new ApiClient({
-  basePath: `${process.env.REACT_APP_API_ROOT}/v1/api/`,
+  basePath: process.env.REACT_APP_API_ROOT,
   fetchConfig: {
     headers: {
       Accept: 'application/json',

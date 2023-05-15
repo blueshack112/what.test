@@ -7,4 +7,3 @@ const makeLoadable = React.lazy;
 export const LoadableLoginScreen = makeLoadable(
   () => import('modules/auth/components/LoginScreen')
 );
-
