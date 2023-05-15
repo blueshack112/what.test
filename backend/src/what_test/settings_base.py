@@ -47,6 +47,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "products",
     # Django
     "django.contrib.auth",
     "django.contrib.contenttypes",
