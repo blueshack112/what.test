@@ -18,7 +18,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   api:
-    image: $$TODO
+    image: haa-what-test/app-backend
     entrypoint: /entrypoints/wait_for_db.sh
     volumes:
       - ./backend/src:/code
@@ -30,7 +30,7 @@ services:
       SERVICE_ID: api
 
   admin:
-    image: $$TODO
+    image: haa-what-test/app-backend
     entrypoint: /entrypoints/wait_for_db.sh
     volumes:
       - ./backend/src:/code
@@ -42,7 +42,7 @@ services:
       SERVICE_ID: admin
 
   celery:
-    image: $$TODO
+    image: haa-what-test/app-backend
     entrypoint: /entrypoints/wait_for_db.sh
     depends_on:
       - db
@@ -58,7 +58,7 @@ services:
     image: redis:7-alpine
 
   notebook:
-    image: $$TODO
+    image: haa-what-test/app-backend
     entrypoint: /entrypoints/wait_for_db.sh
     volumes:
       - ./backend/src:/code
@@ -70,9 +70,3 @@ services:
       SERVICE_ID: notebook
       DJANGO_ALLOW_ASYNC_UNSAFE: 1
       ALLOW_ROOT: 1
-
-  nginx:
-    image: nginx:1.23.2-perl
-    depends_on:
-      - frontend
-      - api

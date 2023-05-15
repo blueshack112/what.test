@@ -1,5 +1,4 @@
 //@flow
-
 export interface IStorageService {
   get(string): string | number | null;
 

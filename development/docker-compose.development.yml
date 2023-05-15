@@ -3,7 +3,7 @@ version: '2.4'
 services:
   frontend:
     env_file:
-      - app.default.env
+      - frontend/.env.development
     command: [ 'yarn', 'start' ]
     ports:
       - "3000:3000"
@@ -29,7 +29,7 @@ services:
       - "8001:8001"
 
   celery:
-    command: [ "celery", "-A", "$$TODO(malx)", "worker", "-l", "INFO", "-Q", "$$TODO(malx-default)" ]
+    command: [ "celery", "-A", "what_test", "worker", "-l", "INFO", "-Q", "what-test-default" ]
     env_file:
       - app.default.env
 

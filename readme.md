@@ -1,9 +1,8 @@
-# $$TODO(Malx) #
+# What.Test #
 
 ### What is this repository for? ###
 
-MalX is a pen-testing platform that allows users to download penetration tests and packages (combination of multiple
-tests) in executable file formats to test their systems against specific vulnerabilities.
+This is a test task meant to be delivered to What.
 
 ### Development
 
@@ -29,10 +28,9 @@ Use `docker-compose.override.yml` to override compose settings locally.
 
 ###### Default Ports
 
-- The database listens on host port 5454 by default and 5432 in docker network
+- The database listens on host port 5454 by default and 5432 in the docker network
 - The api server listens on port 8000 by default
 - The admin server listens on port 8001 by default
-- The pywine server listens on port 8002 by default
 - The frontend server listens on port 3000 by default
 
 ###### Access application
@@ -57,11 +55,3 @@ For example:
 There are several environment variables to control the application behaviour.
 
 @TODO: Create complete list of existing environment variables.
-
-### Contributing (Will be Considered when MVP is successful)
-
-@TODO: coding conventions for python projects
-
-@TODO: coding conventions for Django projects
-
-@TODO: coding conventions for DRF projects

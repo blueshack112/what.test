@@ -18,8 +18,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 ADD src/requirements.txt /root/.cache/
-RUN --mount=type=cache,id=$$TODO(malx-pip),target=/root/.cache/pip pip cache list
-RUN --mount=type=cache,id=$$TODO(malx-pip),target=/root/.cache/pip pip install wheel setuptools \
+RUN --mount=type=cache,id=what_test-pip,target=/root/.cache/pip pip cache list
+RUN --mount=type=cache,id=what_test-pip,target=/root/.cache/pip pip install wheel setuptools \
     && pip install -r /root/.cache/requirements.txt
 
 
@@ -41,14 +41,10 @@ RUN touch /etc/apt/apt.conf.d/99fixbadproxy \
 #python3-llvmlite
 
 COPY --from=builder /root/.cache /root/.cache
-RUN  --mount=type=cache,id=$$TODO(malx-pip),target=/root/.cache/pip pip install -r /root/.cache/requirements.txt
+RUN  --mount=type=cache,id=what_test-pip,target=/root/.cache/pip pip install -r /root/.cache/requirements.txt
 
 # configure application environment settings
-ENV MEDIA_ROOT=/var/www/data/media \
-    CELERY_BEAT_SCHEDULE_FILENAME=/var/run/$$TODO(malx)/celerybeat-schedule
-# Maybe not create these directories here? Needs research
-RUN mkdir -p /var/www/data/media
-RUN mkdir -p /var/log/$$TODO(malx)
+ENV CELERY_BEAT_SCHEDULE_FILENAME=/var/run/what-test/celerybeat-schedule
 
 ADD src /code/
 

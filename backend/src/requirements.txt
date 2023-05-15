@@ -1,3 +1,13 @@
 Django==4.1.6
 djangorestframework==3.14.0
 drf_yasg==1.21.4
+djangorestframework-simplejwt
+psycopg2
+django-extensions
+django-cors-headers
+six
+Pillow
+ipython
+notebook
+redis
+celery

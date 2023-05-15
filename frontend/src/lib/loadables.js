@@ -8,21 +8,3 @@ export const LoadableLoginScreen = makeLoadable(
   () => import('modules/auth/components/LoginScreen')
 );
 
-export const LoadableSignupScreen = makeLoadable(
-  () => import('modules/auth/components/SignupScreen')
-);
-
-/* Private Routes (Only accessible after login) */
-export const LoadablePrivateRoutes = makeLoadable(
-  () => import('modules/app/components/PrivateRoutes')
-);
-
-/* Dashboard Module */
-export const LoadableDashboardModuleTemplateWithRoutes = makeLoadable(
-  () => import('modules/dashboard/components/ModuleTemplateWithRoutes')
-);
-
-export const LoadableDashboardScreen = makeLoadable(() => import('modules/dashboard'));
-
-/* Users Module */
-export const LoadableUserModule = makeLoadable(() => import('modules/auth/components/UsersScreen'));

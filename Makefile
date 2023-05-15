@@ -1,7 +1,6 @@
-DOCKER_BUILD_IMAGE_NAME = $$TODO(malx/app)
-DOCKER_BUILD_IMAGE_NAME_FRONTEND = $$TODO(malx/app-frontend)
-DOCKER_BUILD_IMAGE_NAME_BACKEND = $$TODO(malx/app-backend)
-DOCKER_BUILD_IMAGE_NAME_PYWINE = $$TODO(malx/pywine-host)
+DOCKER_BUILD_IMAGE_NAME = haa-what-test/app
+DOCKER_BUILD_IMAGE_NAME_FRONTEND = haa-what-test/app-frontend
+DOCKER_BUILD_IMAGE_NAME_BACKEND = haa-what-test/app-backend
 DOCKER_BUILDER_BUILD_IMAGE_BACKEND_NAME = $(DOCKER_BUILD_IMAGE_NAME_BACKEND)-builder
 
 # Get override file name
@@ -25,21 +24,24 @@ install-dev: down-then-install fill-dev-data
 hard-install-dev: destroy-then-install fill-dev-data
 
 run: docker-build-backend docker-migrate-database docker-run-all
-run-secure-dev: docker-build-backend docker-migrate-database docker-run-secure-dev
 
-test: docker-build-backend docker-run-test-backend docker-run-test-frontend
+# Not needed
+#test: docker-build-backend docker-run-test-backend docker-run-test-frontend
 # Main functions
 
 # Dev helper functions
-fill-dev-data: fill-dev-vulnerability-test-data fill-dev-packaged_test-data fill-dev-user-data
+fill-dev-data: fill-dev-product-data
 # Dev helper functions
 
-server-install: docker-build-backend docker-migrate-database post-install-setup
-post-install-setup: docker-prefill docker-create-groups docker-setup-superuser
-down-then-install: stop-server server-install
-destroy-then-install: destroy server-install
 stop-server: docker-down
-destroy: docker-down-w-volumes
+destroy-server: docker-down-w-volumes
+
+post-install-setup: docker-setup-superuser
+server-install: docker-build-backend docker-migrate-database post-install-setup
+
+down-then-install: stop-server server-install
+destroy-then-install: destroy-server server-install
+
 
 
 docker-build-backend:
@@ -57,10 +59,6 @@ docker-build-backend:
 docker-run-all:
 	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) up --remove-orphans
 
-docker-run-secure-dev:
-	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) up --remove-orphans frontend db api admin nginx celery redis_queue
-
-
 docker-down-w-volumes:
 	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) down --volumes --remove-orphans
 
@@ -70,24 +68,11 @@ docker-down:
 docker-migrate-database:
 	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm -e LOAD_ADMIN_APP=1 api python manage.py migrate
 
-docker-prefill:
-	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py syncmitrefromcsv
-	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py synctestclasses
-
-fill-dev-vulnerability-test-data:
-	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py createrandomtests
-
-fill-dev-packaged_test-data:
-	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py createrandompackages
-
-fill-dev-user-data:
-	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py createrandomusers
+fill-dev-product-data:
+	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py createrandomproducts
 
 docker-setup-superuser:
 	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py createsuperuser --noinput
-
-docker-create-groups:
-	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py creategroups
 
 docker-run-test-backend:
 	docker compose -f docker-compose.yml -f $(OVERRIDE_FILE_NAME) run --rm api python manage.py test
