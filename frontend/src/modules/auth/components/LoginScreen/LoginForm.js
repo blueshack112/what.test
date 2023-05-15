@@ -61,7 +61,8 @@ export const LoginForm = () => {
     <Grid
       align="center"
       sx={{
-        width: '500px',
+        width: '95%',
+        maxWidth: '500px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -142,7 +143,7 @@ export const LoginForm = () => {
       <Grid align="center">
         <Box>
           <Typography>
-            Don't have an account? <br />
+            Don&apos;t have an account? <br />
             <LinkMUI
               component={Link}
               to={'/auth/signup'}
