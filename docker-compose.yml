@@ -1,0 +1,78 @@
+version: '2.4'
+
+volumes:
+  pgdata:
+
+services:
+  frontend:
+    image: node:19.0.0-buster-slim
+    depends_on:
+      - api
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+
+  db:
+    image: postgres:14.4-bullseye
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    image: $$TODO
+    entrypoint: /entrypoints/wait_for_db.sh
+    volumes:
+      - ./backend/src:/code
+      - ./data:/var/www/data/
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - db
+    environment:
+      SERVICE_ID: api
+
+  admin:
+    image: $$TODO
+    entrypoint: /entrypoints/wait_for_db.sh
+    volumes:
+      - ./backend/src:/code
+      - ./data:/var/www/data/
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - db
+    environment:
+      SERVICE_ID: admin
+
+  celery:
+    image: $$TODO
+    entrypoint: /entrypoints/wait_for_db.sh
+    depends_on:
+      - db
+      - redis_queue
+    volumes:
+      - ./backend/src:/code
+      - ./data:/var/www/data/
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      SERVICE_ID: celery
+
+  redis_queue:
+    image: redis:7-alpine
+
+  notebook:
+    image: $$TODO
+    entrypoint: /entrypoints/wait_for_db.sh
+    volumes:
+      - ./backend/src:/code
+      - ./data:/var/www/data/
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - db
+    environment:
+      SERVICE_ID: notebook
+      DJANGO_ALLOW_ASYNC_UNSAFE: 1
+      ALLOW_ROOT: 1
+
+  nginx:
+    image: nginx:1.23.2-perl
+    depends_on:
+      - frontend
+      - api

@@ -1,0 +1,46 @@
+version: '2.4'
+
+services:
+  frontend:
+    env_file:
+      - app.default.env
+    command: [ 'yarn', 'start' ]
+    ports:
+      - "3000:3000"
+
+  db:
+    env_file:
+      - app.default.env
+    ports:
+      - '5454:5432'
+
+  api:
+    command: [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+    env_file:
+      - app.default.env
+    ports:
+      - "8000:8000"
+
+  admin:
+    command: [ "python", "manage.py", "runserver", "0.0.0.0:8001" ]
+    env_file:
+      - app.default.env
+    ports:
+      - "8001:8001"
+
+  celery:
+    command: [ "celery", "-A", "$$TODO(malx)", "worker", "-l", "INFO", "-Q", "$$TODO(malx-default)" ]
+    env_file:
+      - app.default.env
+
+  redis_queue:
+    command: [ "redis-server", "--appendonly", "yes", "--replica-read-only", "no" ]
+    ports:
+      - '6379:6379'
+
+  notebook:
+    command: [ "python3", "manage.py", "shell_plus", "--notebook" ]
+    env_file:
+      - app.default.env
+    ports:
+      - '8888:8888'

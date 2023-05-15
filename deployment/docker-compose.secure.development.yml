@@ -1,0 +1,62 @@
+version: '2.4'
+
+services:
+  frontend:
+    command: [ 'yarn', 'start' ]
+    env_file:
+      - ./deployment/.env.secure.development
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+
+  db:
+    env_file:
+      - ./deployment/.env.secure.development
+    ports:
+      - '5454:5432'
+
+  api:
+    command: [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+    env_file:
+      - ./deployment/.env.secure.development
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+
+  admin:
+    command: [ "python", "manage.py", "runserver", "0.0.0.0:8001" ]
+    env_file:
+      - ./deployment/.env.secure.development
+    expose:
+      - 8001
+    ports:
+      - "8001:8001"
+
+  celery:
+    command: [ "celery", "-A", "$$TODO(malx)", "worker", "-l", "INFO", "-Q", "$$TODO(malx-default)" ]
+    env_file:
+      - ./deployment/.env.secure.development
+
+  redis_queue:
+    command: [ "redis-server", "--appendonly", "yes", "--replica-read-only", "no" ]
+    ports:
+      - '6379:6379'
+
+  notebook:
+    command: [ "python3", "manage.py", "shell_plus", "--notebook" ]
+    env_file:
+      - ./deployment/.env.secure.development
+    ports:
+      - '8888:8888'
+
+  nginx:
+    env_file:
+      - ./deployment/.env.secure.development
+    volumes:
+      - ./deployment/nginx-configs/nginx-base.conf:/etc/nginx/nginx.conf
+      - ./deployment/nginx-configs/nginx-secure-development.conf:/etc/nginx/templates/default.conf.template
+    ports:
+      - '80:80'
+

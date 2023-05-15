@@ -1,0 +1,13 @@
+[Unit]
+Description=Secure Dev Server Docker Compose Service
+After=network.target
+
+[Service]
+Environment="SECUREDEV=1"
+Restart=always
+RestartSec=3s
+WorkingDirectory=$$TODO(/root/malx/malx/)
+ExecStart=/usr/bin/make run-secure-dev
+
+[Install]
+WantedBy=multi-user.target
