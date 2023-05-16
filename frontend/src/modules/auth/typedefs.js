@@ -3,6 +3,12 @@ export type LoginResponse = {
   refresh: string,
 };
 
+export type ActiveSearchAndSelectionType = {
+  id: number,
+  searchQuery: string,
+  selectedProducts: number[],
+};
+
 export type UserType = {
   id: number,
   username: string,
@@ -10,6 +16,7 @@ export type UserType = {
   lastName: string,
   email: string,
   isSuperuser: boolean,
+  activeSearchAndSelection: ActiveSearchAndSelectionType,
 };
 
 export type UserSWREntity = {

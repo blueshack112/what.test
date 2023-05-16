@@ -3,21 +3,22 @@ import React from 'react';
 import { Box } from '@mui/material';
 import type { ProductType } from '../../typedefs';
 import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
-import { useCookieState } from 'lib/cookieState';
 
 type Props = {
   innerRef: any,
   products: ProductType[],
   dataGridHeight: number,
   loadingProducts: boolean,
+  selectedIds: number[],
+  updateSelectedIds: (number[]) => void,
 };
 
 const ProductData = (props: Props) => {
-  const { innerRef, products, dataGridHeight, loadingProducts } = props;
-  const [selectedIDs, setSelectedIds] = useCookieState('product_data_grid_selection');
+  const { innerRef, products, dataGridHeight, loadingProducts, selectedIds, updateSelectedIds } =
+    props;
   const apiRef = useGridApiRef();
   const onSelectionUpdated = (ids) => {
-    products?.length && setSelectedIds(ids);
+    updateSelectedIds(ids);
   };
 
   const tableColumns = [
@@ -60,7 +61,7 @@ const ProductData = (props: Props) => {
         columns={tableColumns}
         onRowSelectionModelChange={onSelectionUpdated}
         checkboxSelection
-        rowSelectionModel={selectedIDs}
+        rowSelectionModel={selectedIds}
         sx={{ height: dataGridHeight }}
         initialState={{
           pagination: {

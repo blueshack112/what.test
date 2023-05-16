@@ -1,19 +1,25 @@
 //@flow
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import { useCrudAction } from 'lib/comms_v2/nonGetActions';
 import * as actionCreators from '../../actionCreators';
+import * as authActionCreators from 'modules/auth/actionCreators';
 import type { ProductType } from '../../typedefs';
 import ProductData from '../ProductData';
 import SearchBar from './SearchBar';
 import { toast } from 'react-toastify';
-import { useCookieState } from 'lib/cookieState';
+import type { UserSWREntity } from '../../../auth/typedefs';
+import { UserContext } from '../../../contexts/user';
 
 const ProductSearchScreen = () => {
-  const [searchPhrase, setSearchPhrase] = useCookieState('product_search_bar_phrase');
-  const [, setSelectedIds] = useCookieState('product_data_grid_selection');
+  const [searchPhrase, setSearchPhrase] = useState('');
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const searchProducts = useCrudAction(actionCreators.compileSearchProductsAction);
+  const updateSearchAndSelectionData = useCrudAction(
+    authActionCreators.compilePatchActiveSelectionDataAction
+  );
+  const userEntity: UserSWREntity = useContext(UserContext);
 
   const [productsList, setProductsList] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
@@ -22,6 +28,24 @@ const ProductSearchScreen = () => {
     setSearchPhrase(value);
     setSelectedIds([]);
   };
+  const updateSelectedIds = (ids) => {
+    updateSearchAndSelectionData(userEntity.data.activeSearchAndSelection.id, {
+      ...userEntity.data.activeSearchAndSelection,
+      selectedProducts: ids,
+    })
+      .then(() => {
+        productsList && setSelectedIds(ids);
+      })
+      .catch(() => {});
+  };
+
+  // Update search and product selection when user context is available
+  useEffect(() => {
+    if (userEntity.data?.activeSearchAndSelection) {
+      setSearchPhrase(userEntity.data.activeSearchAndSelection.searchQuery);
+      setSelectedIds(userEntity.data.activeSearchAndSelection.selectedProducts);
+    }
+  }, [userEntity.data]);
 
   // Update product list when searchPhrase changes
   useEffect(() => {
@@ -96,6 +120,8 @@ const ProductSearchScreen = () => {
             products={productsList}
             loadingProducts={loadingProducts}
             dataGridHeight={shouldBeHeight}
+            selectedIds={selectedIds}
+            updateSelectedIds={updateSelectedIds}
           />
         </Box>
       </Grid>
