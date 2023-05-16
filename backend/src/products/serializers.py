@@ -10,7 +10,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductNamesSerializer(serializers.Serializer):
-    product_names = serializers.ListField(child=serializers.CharField())
+    keywords = serializers.ListField(child=serializers.CharField())
 
     class Meta:
         fields = ["product_names"]
