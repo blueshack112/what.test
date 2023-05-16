@@ -7,7 +7,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from products.models import Product, ActiveSearchAndSelection
+from accounts.models import ActiveSearchAndSelection
+from products.models import Product
 from products.serializers import (
     ProductSerializer,
     ProductNamesSerializer,

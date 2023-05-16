@@ -3,7 +3,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from accounts.serializers import UserSerializer
+from accounts.models import ActiveSearchAndSelection
+from accounts.serializers import UserSerializer, ActiveSearchAndSelectionSerializer
+from utils.drf.permissions import IsAuthenticated
 from utils.enhancements import get_user_model
 
 
@@ -27,3 +29,9 @@ class UserViewSet(ModelViewSet):
             status=status.HTTP_200_OK,
             data=serializer.data,
         )
+
+
+class ActiveSearchAndSelectionViewSet(ModelViewSet):
+    serializer_class = ActiveSearchAndSelectionSerializer
+    queryset = ActiveSearchAndSelection.objects.all()
+    permission_classes = [IsAuthenticated]
