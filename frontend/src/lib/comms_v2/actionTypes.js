@@ -20,6 +20,8 @@ export const UPDATE_SUCCESS: 'redux-crud-store/crud/UPDATE_SUCCESS' =
   'redux-crud-store/crud/UPDATE_SUCCESS';
 export const UPDATE_ERROR: 'redux-crud-store/crud/UPDATE_ERROR' =
   'redux-crud-store/crud/UPDATE_ERROR';
+export const PARTIAL_UPDATE: 'redux-crud-store/crud/PARTIAL_UPDATE' =
+  'redux-crud-store/crud/PARTIAL_UPDATE';
 export const DELETE: 'redux-crud-store/crud/DELETE' = 'redux-crud-store/crud/DELETE';
 export const DELETE_SUCCESS: 'redux-crud-store/crud/DELETE_SUCCESS' =
   'redux-crud-store/crud/DELETE_SUCCESS';
@@ -115,4 +117,4 @@ export type InvalidateRecordAction = {
   },
 };
 
-export type Method = 'get' | 'post' | 'put' | 'delete';
+export type Method = 'get' | 'post' | 'put' | 'patch' | 'delete';

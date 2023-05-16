@@ -14,6 +14,7 @@ import {
   FETCH_ONE_ERROR,
   FETCH_ONE_SUCCESS,
   FETCH_SUCCESS,
+  PARTIAL_UPDATE,
   UPDATE,
   UPDATE_ERROR,
   UPDATE_SUCCESS,
@@ -129,6 +130,36 @@ export function updateRecord<T>(
 
   return {
     type: UPDATE,
+    meta: {
+      success: UPDATE_SUCCESS,
+      failure: UPDATE_ERROR,
+      model,
+      id,
+    },
+    payload: {
+      fetchConfig,
+      method,
+      path,
+      data,
+      params,
+      promise,
+    },
+  };
+}
+export function partiallyUpdateRecord<T>(
+  model: string,
+  id: ID,
+  path: string,
+  data: $Shape<T> = {},
+  params: Object = {},
+  opts: Opts = {},
+  promise?: Promise
+): CrudAction<T> {
+  const fetchConfig = opts.fetchConfig || undefined;
+  const method = opts.method || 'patch';
+
+  return {
+    type: PARTIAL_UPDATE,
     meta: {
       success: UPDATE_SUCCESS,
       failure: UPDATE_ERROR,
