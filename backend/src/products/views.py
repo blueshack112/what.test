@@ -7,7 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from products.models import Product
+from products.models import Product, ActiveSearchAndSelection
 from products.serializers import (
     ProductSerializer,
     ProductNamesSerializer,
@@ -58,5 +58,15 @@ class ProductModelViewSet(ModelViewSet):
         response_serializer = ProductSerializer(
             self.get_queryset().filter(slug__contains=query), many=True
         )
+
+        if hasattr(self.request.user, "active_search_and_selection"):
+            active_search_selection = self.request.user.active_search_and_selection
+        else:
+            active_search_selection = ActiveSearchAndSelection.objects.create(
+                user=self.request.user
+            )
+
+        active_search_selection.search_query = query
+        active_search_selection.save(update_fields=["search_query"])
 
         return Response(response_serializer.data, status=status.HTTP_200_OK)
