@@ -1,17 +1,17 @@
 //@flow
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import * as loadables from 'lib/loadables';
-import storageService from 'lib/storageService';
+import Navbar from '../Navbar';
 
 const PrivateRoutes = () => {
   const location = useLocation();
-  const token = storageService.get('token');
 
   return (
     <>
+      <Navbar />
       <Routes location={location}>
-        <Route path={'/*'} element={<loadables.LoadableDashboardModuleTemplateWithRoutes />} />
+        <Route path={'/*'} element={<loadables.LoadableProductModuleRoutes />} />
       </Routes>
     </>
   );

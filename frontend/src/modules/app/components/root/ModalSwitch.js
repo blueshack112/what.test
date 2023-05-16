@@ -14,19 +14,19 @@ const ModalSwitch = () => {
   useEffect(() => {
     isAuthenticated && location.pathname.startsWith('/auth/') && navigate('/');
     !isAuthenticated && !location.pathname.startsWith('/auth/') && navigate('/auth/login');
-  });
+  }, [location.pathname]);
   return (
     <Suspense fallback={<CircularProgress size={100} />}>
-      {/* TODO: -Hassan: Move auth routes to route module />*/}
+      {/* TODO: Move auth routes to auth module />*/}
       <Routes location={location}>
         <Route path="/auth/*">
           <Route exact path="login" element={<loadables.LoadableLoginScreen />} />
           {/*<Route exact path="signup" element={<loadables.LoadableSignupScreen />} />*/}
         </Route>
-        {/*<Route*/}
-        {/*  path={'/*'}*/}
-        {/*  element={<loadables.LoadablePrivateRoutes isAuthenticated={isAuthenticated} />}*/}
-        {/*/>*/}
+        <Route
+          path={'/*'}
+          element={<loadables.LoadablePrivateRoutes isAuthenticated={isAuthenticated} />}
+        />
         {/* TODO: Add not found route: <Route component={loadables.LoadableNotFound} />*/}
       </Routes>
     </Suspense>
