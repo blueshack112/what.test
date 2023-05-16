@@ -4,7 +4,7 @@ import type { CrudAction } from './typeDefs';
 import { SWREntity } from './typeDefs';
 
 export const useGlobalSWR = (action: CrudAction, fallbackData?: any): SWREntity => {
-  const { data, error, mutate, isValidating } = useSWR([action.payload.path, action]);
+  const { data, error, mutate, isValidating } = useSWR(action);
 
   return {
     data: data ? data : fallbackData ? fallbackData : undefined,
