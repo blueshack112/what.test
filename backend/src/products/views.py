@@ -8,7 +8,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from products.models import Product
-from products.serializers import ProductSerializer, ProductNamesSerializer
+from products.serializers import (
+    ProductSerializer,
+    ProductNamesSerializer,
+    ProductSearchBodySerializer,
+)
 from utils.drf.permissions import IsAuthenticated
 
 
@@ -20,6 +24,8 @@ class ProductModelViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list_keywords":
             return ProductNamesSerializer
+        if self.action == "search":
+            return ProductSearchBodySerializer
         return super().get_serializer_class()
 
     @swagger_auto_schema(responses={200: ProductNamesSerializer})
@@ -37,3 +43,20 @@ class ProductModelViewSet(ModelViewSet):
         serializer: ProductNamesSerializer = self.get_serializer({"keywords": keywords})
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        request_body=ProductSearchBodySerializer,
+        responses={200: ProductSerializer(many=True)},
+    )
+    @action(detail=False, methods=["post"], url_name="search", url_path="search")
+    def search(self, request: Request):
+        request_serializer: ProductSearchBodySerializer = self.get_serializer(
+            data=request.data
+        )
+        request_serializer.is_valid(raise_exception=True)
+        query = request_serializer.validated_data.get("query")
+        response_serializer = ProductSerializer(
+            self.get_queryset().filter(slug__contains=query), many=True
+        )
+
+        return Response(response_serializer.data, status=status.HTTP_200_OK)

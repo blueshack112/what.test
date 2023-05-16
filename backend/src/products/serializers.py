@@ -9,6 +9,10 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ProductSearchBodySerializer(serializers.Serializer):
+    query = serializers.CharField(allow_null=False, allow_blank=False)
+
+
 class ProductNamesSerializer(serializers.Serializer):
     keywords = serializers.ListField(child=serializers.CharField())
 
