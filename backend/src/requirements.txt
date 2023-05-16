@@ -105,6 +105,7 @@ typing_extensions==4.5.0
 uri-template==1.2.0
 uritemplate==4.1.1
 urllib3==2.0.2
+uWSGI==2.0.21
 vine==5.0.0
 wcwidth==0.2.6
 webcolors==1.13
