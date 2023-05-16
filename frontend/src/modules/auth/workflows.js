@@ -3,6 +3,7 @@
 import storageService from 'lib/storageService';
 import { apiClient } from 'store';
 import { LoginResponse } from './typedefs';
+import { cookiesUsed } from '../../lib/constants';
 
 export const setToken = (loginResponse: LoginResponse, swrCache) => {
   if (!loginResponse || !loginResponse.access) return;
@@ -23,6 +24,7 @@ export const logIn = (loginResponse: LoginResponse, swrCache, navigate: (*) => v
 export const removeToken = () => {
   storageService.remove('token');
   storageService.remove('refresh');
+  cookiesUsed.map((key) => storageService.remove(key));
   apiClient.setToken();
 };
 

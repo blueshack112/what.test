@@ -6,11 +6,13 @@ import * as actionCreators from '../../actionCreators';
 import type { KeywordListSWREntity } from '../../typedefs';
 
 type Props = {
+  searchPhrase: string,
   updateSearchPhrase: (string) => void,
 };
 
 const SearchBar = (props: Props) => {
-  const { updateSearchPhrase } = props;
+  const { searchPhrase, updateSearchPhrase } = props;
+
   const keywordsEntity: KeywordListSWREntity = useGlobalSWR(
     actionCreators.compileGetKeywordListAction()
   );
@@ -27,7 +29,8 @@ const SearchBar = (props: Props) => {
     <Autocomplete
       freeSolo
       disableClearable
-      onChange={onSearchPhraseChanged}
+      onInputChange={onSearchPhraseChanged}
+      inputValue={searchPhrase}
       filterOptions={filterOptions}
       options={keywordsList || []}
       sx={{ width: '100%' }}

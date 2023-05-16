@@ -10,3 +10,6 @@ export const pageContentMargins = {
   contentX: 3,
   contentY: 3,
 };
+
+// For clearing during logout
+export const cookiesUsed = ['product_search_bar_phrase', 'product_data_grid_selection'];

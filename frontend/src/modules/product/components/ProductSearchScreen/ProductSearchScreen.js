@@ -6,11 +6,22 @@ import * as actionCreators from '../../actionCreators';
 import type { ProductType } from '../../typedefs';
 import ProductData from '../ProductData';
 import SearchBar from './SearchBar';
+import { toast } from 'react-toastify';
+import { useCookieState } from 'lib/cookieState';
 
 const ProductSearchScreen = () => {
-  const [searchPhrase, setSearchPhrase] = useState('');
+  const [searchPhrase, setSearchPhrase] = useCookieState('product_search_bar_phrase');
+  const [, setSelectedIds] = useCookieState('product_data_grid_selection');
+
   const searchProducts = useCrudAction(actionCreators.compileSearchProductsAction);
+
   const [productsList, setProductsList] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+
+  const updateSearchPhrase = (value) => {
+    setSearchPhrase(value);
+    setSelectedIds([]);
+  };
 
   // Update product list when searchPhrase changes
   useEffect(() => {
@@ -18,9 +29,17 @@ const ProductSearchScreen = () => {
       setProductsList([]);
       return;
     }
-    searchProducts(searchPhrase).then((data: ProductType[]) => {
-      setProductsList(data);
-    });
+    setLoadingProducts(true);
+    searchProducts(searchPhrase)
+      .then((data: ProductType[]) => {
+        setProductsList(data);
+      })
+      .catch(() => {
+        toast.error('Could not load products');
+      })
+      .finally(() => {
+        setLoadingProducts(false);
+      });
   }, [searchPhrase, searchProducts]);
 
   // Constraint height. Account for different screen sizes
@@ -71,10 +90,11 @@ const ProductSearchScreen = () => {
             marginTop: 4,
           }}
         >
-          <SearchBar updateSearchPhrase={setSearchPhrase} />
+          <SearchBar searchPhrase={searchPhrase} updateSearchPhrase={updateSearchPhrase} />
           <ProductData
             innerRef={productDataRef}
             products={productsList}
+            loadingProducts={loadingProducts}
             dataGridHeight={shouldBeHeight}
           />
         </Box>
