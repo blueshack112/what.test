@@ -15,7 +15,7 @@ import {
 import { Key, Person2Outlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { btnStyle, inputSX } from './styles';
-import { useGlobalAction } from 'lib/comms_v2/nonGetActions';
+import { useCrudAction } from 'lib/comms_v2/nonGetActions';
 import { compileLoginAction } from '../../actionCreators';
 import { logIn } from '../../workflows';
 import { colorPalette } from 'lib/constants';
@@ -28,7 +28,7 @@ export const LoginForm = () => {
   const navigate = useNavigate();
 
   const { cache: swrCache } = useSWRConfig();
-  const getJWToken = useGlobalAction(compileLoginAction);
+  const getJWToken = useCrudAction(compileLoginAction);
 
   const onLoginClicked = (username: string, password: string) => {
     setLoggingIn(true);
