@@ -14,9 +14,11 @@ import { useNavigate } from 'react-router-dom';
 import { useGlobalSWR } from 'lib/comms_v2/useGlobalSWR';
 import { UserSWREntity } from 'modules/auth/typedefs';
 import { Button } from '@mui/material';
+import { useContext } from 'react';
+import { UserContext } from '../../../contexts/user';
 
 const NavbarAccountMenu = () => {
-  const userEntity: UserSWREntity = useGlobalSWR(authActionCreators.compileGetCurrentUserAction());
+  const userEntity: UserSWREntity = useContext(UserContext);
   const navigate = useNavigate();
   const { cache: swrCache } = useSWRConfig();
 
