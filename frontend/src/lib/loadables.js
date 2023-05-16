@@ -16,3 +16,7 @@ export const LoadablePrivateRoutes = makeLoadable(
 export const LoadableProductModuleRoutes = makeLoadable(
   () => import('modules/product/components/ModuleRoutes')
 );
+
+export const LoadableProductSearchScreen = makeLoadable(
+  () => import('modules/product/components/ProductSearchScreen')
+);
