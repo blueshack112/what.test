@@ -1,10 +1,14 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from accounts.models import ActiveSearchAndSelection
-from accounts.serializers import UserSerializer, ActiveSearchAndSelectionSerializer
+from accounts.serializers import (
+    UserSerializer,
+    ActiveSearchAndSelectionSerializer,
+    UserRegisterSerializer,
+)
 from utils.drf.permissions import IsAuthenticated
 from utils.enhancements import get_user_model
 
@@ -13,6 +17,12 @@ from utils.enhancements import get_user_model
 class UserViewSet(ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            # For user registration
+            return UserRegisterSerializer
+        return super().get_serializer_class()
 
     @action(
         detail=False,
