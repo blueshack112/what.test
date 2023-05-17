@@ -39,14 +39,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     )
     password1 = serializers.CharField(
         source="password",
-        write_only=True,
         required=True,
         validators=[validate_password],
     )
     password2 = serializers.CharField(write_only=True, required=True)
-    fullname = serializers.CharField(
-        write_only=False, required=True, source="first_name"
-    )
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
 
     class Meta:
         model = get_user_model()
@@ -55,7 +53,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "password1",
             "password2",
             "email",
-            "fullname",
+            "first_name",
+            "last_name",
         )
 
     def validate(self, attrs):

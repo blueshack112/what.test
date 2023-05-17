@@ -7,6 +7,9 @@ const makeLoadable = React.lazy;
 export const LoadableLoginScreen = makeLoadable(
   () => import('modules/auth/components/LoginScreen')
 );
+export const LoadableSignupScreen = makeLoadable(
+  () => import('modules/auth/components/SignupScreen')
+);
 
 /* Private Routes */
 export const LoadablePrivateRoutes = makeLoadable(
