@@ -23,7 +23,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { btnStyle, inputSX } from '../../styles';
 import { useCrudAction } from 'lib/comms_v2/nonGetActions';
 import { compileSignupAction } from '../../actionCreators';
-import { logIn } from '../../workflows';
 import { colorPalette } from 'lib/constants';
 import { toast } from 'react-toastify';
 
