@@ -98,7 +98,7 @@ DATABASES = {
         "PORT": os.environ.get("DJANGO_SETTINGS_POSTGRES_DB_PORT", "5454"),
     }
     if not STAGING
-    else {"default": dj_database_url.parse(DATABASE_URL)}
+    else dj_database_url.parse(DATABASE_URL)
 }
 
 

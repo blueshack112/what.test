@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="ssh.black.aldryn.net" id="7f2deb15-f39b-4fb2-a170-9fb31305760e" port="22" nameFormat="DESCRIPTIVE" username="hassanwhattesttask-test-5a921be99cc143e0a959abce65f13b80" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
