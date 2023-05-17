@@ -20,6 +20,8 @@ ENV PORT=80
 ENV HOST=0.0.0.0
 ENV BROWSER='none'
 
+RUN yarn build
+
 EXPOSE 80
 
 CMD ["serve", "-s", "build", "-l", "80"]
