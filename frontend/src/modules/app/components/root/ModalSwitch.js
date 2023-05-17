@@ -21,7 +21,7 @@ const ModalSwitch = () => {
       <Routes location={location}>
         <Route path="/auth/*">
           <Route exact path="login" element={<loadables.LoadableLoginScreen />} />
-          {/*<Route exact path="signup" element={<loadables.LoadableSignupScreen />} />*/}
+          <Route exact path="signup" element={<loadables.LoadableSignupScreen />} />
         </Route>
         <Route
           path={'/*'}

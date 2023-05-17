@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { Key, Person2Outlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
-import { btnStyle, inputSX } from './styles';
+import { btnStyle, inputSX } from '../../styles';
 import { useCrudAction } from 'lib/comms_v2/nonGetActions';
 import { compileLoginAction } from '../../actionCreators';
 import { logIn } from '../../workflows';
