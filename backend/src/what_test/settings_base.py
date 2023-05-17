@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 
 def get_bool_env(key, default=None):
@@ -33,6 +34,7 @@ SECRET_KEY = "django-insecure-57)$=8mad_$%c^jokce2!*ecbaw&pkgqay0bx_9$5)m0#&)@s!
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_env("DEBUG", True)
+STAGING = get_bool_env("IS_STAGING", False)
 SERVICE_ID = os.environ.get("SERVICE_ID", "api")
 
 # ALLOWED_HOSTS = (
@@ -85,7 +87,7 @@ WSGI_APPLICATION = "what_test.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite://:memory:")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -95,6 +97,8 @@ DATABASES = {
         "HOST": os.environ.get("DJANGO_SETTINGS_POSTGRES_DB_HOST", "127.0.0.1"),
         "PORT": os.environ.get("DJANGO_SETTINGS_POSTGRES_DB_PORT", "5454"),
     }
+    if not STAGING
+    else {"default": dj_database_url.parse(DATABASE_URL)}
 }
 
 
