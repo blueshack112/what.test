@@ -141,3 +141,5 @@ GitHub.sublime-settings
 .idea/**/gradle.xml
 .idea/**/libraries
 /.idea
+
+staticfiles

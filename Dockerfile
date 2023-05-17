@@ -26,4 +26,5 @@ COPY backend/entrypoints /entrypoints
 RUN sed -i 's/\r$//g' /entrypoints/wait_for_db.sh
 RUN chmod -R +x /entrypoints/wait_for_db.sh
 
+RUN python manage.py collectstatic --noinput
 CMD uwsgi --http=0.0.0.0:80 --module=what_test.wsgi
