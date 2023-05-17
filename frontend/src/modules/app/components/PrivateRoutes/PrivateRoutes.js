@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import * as loadables from 'lib/loadables';
 import Navbar from '../Navbar';
-import UserProvider, { UserContext } from '../../../contexts/user';
+import { UserContext } from '../../../contexts/user';
 import { useGlobalSWR } from 'lib/comms_v2/useGlobalSWR';
 import * as authActionCreators from '../../../auth/actionCreators';
 

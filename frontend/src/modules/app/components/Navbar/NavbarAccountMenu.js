@@ -1,5 +1,6 @@
 //@flow
 import * as React from 'react';
+import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,14 +8,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { useSWRConfig } from 'swr';
-import * as authActionCreators from 'modules/auth/actionCreators';
 import LoadingOrErrorWrapper from '../LoadingOrErrorWrapper';
 import { logOut } from 'modules/auth/workflows';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalSWR } from 'lib/comms_v2/useGlobalSWR';
 import { UserSWREntity } from 'modules/auth/typedefs';
 import { Button } from '@mui/material';
-import { useContext } from 'react';
 import { UserContext } from '../../../contexts/user';
 
 const NavbarAccountMenu = () => {
