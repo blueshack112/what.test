@@ -1,7 +1,6 @@
 //@flow
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { useSWRConfig } from 'swr';
 import {
   Box,
   Button,
